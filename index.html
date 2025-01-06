@@ -115,20 +115,20 @@
 
         function move(direction) {
             let moved = false;
-            if (direction === 'ArrowLeft') {
+            if (direction === 'ArrowLeft'|| direction === 'a') {
                 grid = grid.map(row => moveAndMerge(row));
                 moved = true;
-            } else if (direction === 'ArrowRight') {
+            } else if (direction === 'ArrowRight' || direction === 'd') {
                 grid = grid.map(row => moveAndMerge(row.reverse()).reverse());
                 moved = true;
-            } else if (direction === 'ArrowUp') {
+            } else if (direction === 'ArrowUp' || direction === 'w') {
                 for (let c = 0; c < GRID_SIZE; c++) {
                     let col = grid.map(row => row[c]);
                     col = moveAndMerge(col);
                     col.forEach((val, r) => (grid[r][c] = val));
                 }
                 moved = true;
-            } else if (direction === 'ArrowDown') {
+            } else if (direction === 'ArrowDown'|| direction === 's') {
                 for (let c = 0; c < GRID_SIZE; c++) {
                     let col = grid.map(row => row[c]).reverse();
                     col = moveAndMerge(col).reverse();
@@ -164,12 +164,23 @@
             return true;
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
-                move(e.key);
-                if (isGameOver()) alert('Game Over!');
-            }
-        });
+document.addEventListener('keydown', (e) => {
+    const keyMap = {
+        'ArrowLeft': 'ArrowLeft',
+        'a': 'ArrowLeft',
+        'ArrowRight': 'ArrowRight',
+        'd': 'ArrowRight',
+        'ArrowUp': 'ArrowUp',
+        'w': 'ArrowUp',
+        'ArrowDown': 'ArrowDown',
+        's': 'ArrowDown'
+    };
+
+    if (keyMap[e.key]) {
+        move(keyMap[e.key]);
+        if (isGameOver()) alert('Game Over!');
+    }
+});
 
         addRandomTile();
         addRandomTile();
